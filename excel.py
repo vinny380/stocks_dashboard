@@ -3,8 +3,10 @@ import streamlit as st
 from io import BytesIO
 import time
 
-output = BytesIO()
+st.title("Language and Cognition Lab🧠📊")
+st.image('https://i.ibb.co/L0hHCFZ/Screenshot-2023-02-22-at-12-57-43-PM.png')
 
+st.markdown("Automated Excel Editor")
 excel_file = st.file_uploader('Upload your excel file')
 @st.cache_data()
 def modify(excel_file):
