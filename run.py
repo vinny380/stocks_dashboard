@@ -24,12 +24,11 @@ col1, col2 = st.columns(2)
 
 
 def red_or_green_daily(dfs):
-    for n in dfs:
-        # if n == dfs[0]:
-        #     company = 'Tesla'
-        # elif n == dfs[1]:
-        #     company = 'Intel'
-        company = 'Tesla'
+    for company in dfs:   
+        if company == 'Tesla':
+            n = df_tesla
+        elif company == 'Intel':
+            n = df_intel   
         if (float(n.Close.iloc[-1]) >= (float(n.Close.iloc[-2]))):
             string = f"{company} is up by ${round(float(n.Close.iloc[-1]) - (float(n.Close.iloc[-2])), 3)}",
             display = f'<p style="color:green;">{string}</p>'
@@ -39,7 +38,7 @@ def red_or_green_daily(dfs):
             display = f'<p style="color:red;">{string}</p>'
         st.write(display, unsafe_allow_html=True)
 
-red_or_green_daily([df_tesla, df_intel])
+red_or_green_daily(['Tesla', 'Intel'])
 
 period_selectbox = st.sidebar.selectbox('Period', ['1 day', '1 week', '1 month', '3 months' ,'6 months', '1 year', '5 years', 'Max'])
 
@@ -105,7 +104,7 @@ def line_plot(categories, stocks):
             elif stock == 'Intel':
                 df = period(df_intel, period_selectbox)
             ax.plot(df.Date,categorie,data=df, label=stock)
-            ax.set(title=f"{str(categorie)} - {stock}", xlabel='Time', ylabel=categorie)
+            ax.set(title=f"{str(categorie)} - {stock}", xlabel=f'Time - {period_selectbox}', ylabel=categorie)
             fig.autofmt_xdate()
             ax.legend()
             plt.tight_layout()
@@ -114,3 +113,17 @@ def line_plot(categories, stocks):
 line = st.sidebar.button('Line Plot')
 if line:
     line_plot(categories, stocks)
+
+checkbox_df = st.sidebar.checkbox('Display dataframe')
+if checkbox_df:
+    for n in stocks:
+        if n == 'Tesla':
+            company = 'Tesla'
+            df = df_tesla
+        elif n == 'Intel':
+            company = 'Intel'
+            df = df_intel
+        st.write(f"{company} dataframe")
+        st.dataframe(df)
+
+
